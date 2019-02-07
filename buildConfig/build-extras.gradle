@@ -72,6 +72,12 @@ android {
         ext.buildNumber = System.getenv("TRAVIS_BUILD_NUMBER") ?: "local"
         versionName "2.0.$ext.buildNumber"
        resValue("string", "deeplink_base_url", "ekstep")
+       buildConfigField 'String', 'TELEMETRY_BASE_URL', "\"${"https://dev.ekstep.in/api/data/v1"}\""
+       buildConfigField 'String', 'DEVICE_REGISTER_BASE_URL', "\"${"https://dev.ekstep.in/v3/device"}\""
+      buildConfigField 'String', 'CHANNEL_ID', "\"${"sunbird"}\""
+                  buildConfigField 'String', 'PRODUCER_ID', "\"${"sunbirdekstep"}\""
+
+
     }
 
     signingConfigs {

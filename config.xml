@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="1" id="org.sunbird.devconmobile" version="staging-2.0.0.01" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="1" id="org.sunbird.app" version="staging-2.0.0.01" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Devcon mobile appe</name>
     <description>Devcon mobile app</description>
     <author email="ab@gmail.com" href="http://abc.org">Devcon Team</author>
@@ -91,6 +91,6 @@
     <plugin name="cordova-plugin-browsertab" spec="0.2.0" />
     <plugin name="cordova-plugin-console" spec="1.1.0" />
     <plugin name="cordova-plugin-geniecanvas" spec="https://github.com/project-sunbird/cordova-plugin-geniecanvas.git" />
-    <plugin name="cordova-plugin-genie-sdk" spec="https://github.com/itsvick/cordova-plugin-genie-sdk.git" />
+    <plugin name="cordova-plugin-genie-sdk" spec="https://github.com/AmiableAnil/cordova-plugin-genie-sdk.git" />
     <engine name="android" spec="7.1.4" />
 </widget>

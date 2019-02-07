@@ -97,7 +97,7 @@
     <ion-col>
       <ion-card>
         <ion-card-header>
-          <div>Revise <ion-icon class="secondary-color "float-end name="play"></ion-icon></div>
+          <div (click)="alert(revise)">Revise <ion-icon class="secondary-color "float-end name="play"></ion-icon></div>
         </ion-card-header>
       </ion-card>
     </ion-col>
@@ -106,7 +106,7 @@
     <ion-col>
       <ion-card>
         <ion-card-header>
-          <div>Recall <ion-icon class="secondary-color "float-end name="play"></ion-icon></div>
+          <div (click)="alert(recall)">Recall <ion-icon class="secondary-color "float-end name="play"></ion-icon></div>
         </ion-card-header>
       </ion-card>
     </ion-col>
@@ -115,7 +115,7 @@
     <ion-col>
       <ion-card>
         <ion-card-header>
-          <div>Practice <ion-icon class="secondary-color "float-end name="play"></ion-icon></div>
+          <div (click)="alert(practise)">Practice  <ion-icon class="secondary-color"  float-end name="play"></ion-icon></div>
         </ion-card-header>
       </ion-card>
     </ion-col>
@@ -124,7 +124,7 @@
     <ion-col>
       <ion-card>
         <ion-card-header>
-          <div>Start Quiz</div>
+          <div (click)="alert(quiz)">Start Quiz</div>
         </ion-card-header>
       </ion-card>
     </ion-col>
