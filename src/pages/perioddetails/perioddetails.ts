@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 //import { AskappuPage } from '../askappu/askappu';
 // import { AttendenceComponent } from '../../components/attendence/attendence';
 import { statsHeatMap } from '../../data/data';
+import { request } from 'https';
 
 /**
  * Generated class for the PerioddetailsPage page.
@@ -40,6 +41,7 @@ export class PerioddetailsPage {
   quiz: any;
   recall: any;
   revise: any;
+  associations
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpClient: HttpClient, private modalCtrl: ModalController, private popoverCtrl: PopoverController,
     public events: Events,
@@ -72,6 +74,7 @@ export class PerioddetailsPage {
         console.log(res);
       }
     });
+     this.associations = this.navParams.get('association');
     // this.getPeriodDetails(this.data.period, this.data.class, date, this.teacherId);
     this.handleBackButton();
   }
@@ -212,6 +215,17 @@ export class PerioddetailsPage {
   // }
 
   openHeatMapForPerformance() {
+    let request = {};
+    request['topic'] = this.associations; 
+    let body = {
+      request: request
+    }
+    console.log('request is =>' , body);
+    this.httpClient.post('https://dev.ekstep.in/api/dialcode/v3/period/read ' , body)
+    .subscribe((res)=>{
+      console.log('response is =>' , res);
+    })
+
     const popover = this.popoverCtrl.create(ReportAlertComponent, {
       heatMapData: statsHeatMap,//this.periodResponse.performanceDetails,
       title: "Performance Report",
