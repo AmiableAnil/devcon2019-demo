@@ -1,0 +1,105 @@
+<ion-header class="bg-primary white">
+  <ion-navbar>
+    <ion-title>
+      Class 
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openModal()">
+        <ion-icon name="more" end></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-card class="summary-card">
+    <ion-row class="st-analysis no-border">
+      <ion-col class="flex">
+        <ion-icon name="albums" class="mr-10"></ion-icon>
+        <div class="st-analysis-item">
+          <div class="lb-title">Class</div>
+          <div id="ClassId" class="lb-value">{{periodResponse?.grade}}</div>
+        </div>
+      </ion-col>
+      <ion-col class="flex">
+        <ion-icon name="book" class="mr-10"></ion-icon>
+        <div class="st-analysis-item">
+          <div class="lb-title">Subject</div>
+          <div id="SubjectId" class="lb-value">{{periodResponse?.subject}}</div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="st-analysis">
+      <ion-col class="flex">
+        <ion-icon name="list-box" class="mr-10"></ion-icon>
+        <div class="st-analysis-item">
+          <div class="lb-title">Topics</div>
+          <div id="TopicsId" class="lb-value" ><span >{{topic}} </span></div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="st-analysis">
+      <ion-col class="flex">
+        <ion-icon name="people" class="mr-10"></ion-icon>
+        <div class="st-analysis-item">
+          <div class="lb-title">Students</div>
+          <div class="lb-value" id="ClassId">{{studentSize}}</div>
+        </div>
+      </ion-col>
+      <ion-col class="flex">
+        <ion-icon name="timer" class="mr-10"></ion-icon>
+        <div class="st-analysis-item">
+          <div class="lb-title">Date & Time</div>
+          <div class="lb-value" id="SubjectId" *ngIf="date">23-01-2019 (10:00AM - 11:00AM)</div>
+          <div class="lb-value" id="SubjectId" *ngIf="!date">24-01-2019 (01:00PM - 06:00PM)</div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-row class="student-stats" *ngIf ='studentStatistics'>
+    <ion-col class="p-0">
+      <ion-card padding (click)="openAttendenceReport()">
+        <div class="st-analysis-item">
+          <ion-icon name="hand" class="mr-10 secondary-color"></ion-icon>
+          <div class="lb-value stats py-5" id="AttendanceId"> {{avgAttendence}} % </div>
+          <div class="lb-title">Attendance</div>
+        </div>
+      </ion-card>
+    </ion-col>
+    <ion-col class="p-0">
+      <ion-card padding (click)="openHeatMapForEngagement()">
+        <div class="st-analysis-item">
+          <ion-icon name="git-merge" class="mr-10 primary-color"></ion-icon>
+          <div class="lb-value stats py-5" id="EngagementId">{{avgEngagement}} %</div>
+          <div class="lb-title">Engagement</div>
+        </div>
+      </ion-card>
+    </ion-col>
+    <ion-col class="p-0">
+      <ion-card padding>
+        <div class="st-analysis-item" (click)="openHeatMapForPerformance()">
+          <ion-icon name="flash" class="mr-10 tertiary-color"></ion-icon>
+          <div class="lb-value stats py-5" id="PerformanceID">{{avgPerformance}} %</div>
+          <div class="lb-title">Performance</div>
+        </div>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="browse-diksha-btn" *ngIf ='!studentStatistics'>
+    <ion-col>
+      <ion-buttons>
+          <button ion-button full class="wd-85">Browse Sunbird</button>
+          <button ion-button clear class="appu-image" (click)="showAppuPage()">
+            <img src="../../assets/imgs/appu.png" alt="appu image">
+          </button>
+        </ion-buttons>
+        <ion-buttons>
+          <button  *ngIf= 'showStartClass' ion-button full class="wd-85">Start your class</button>
+          
+        </ion-buttons>
+    </ion-col>
+  </ion-row>
+</ion-content>
+

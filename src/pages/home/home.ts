@@ -1,3 +1,4 @@
+import { PerioddetailsPage } from './../perioddetails/perioddetails';
 import { Component, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -20,6 +21,9 @@ export class HomePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
+  }
+  goToPeriodDetailPage(){
+    this.navCtrl.push(PerioddetailsPage);
   }
   alert() {
     this.zone.run(() => {
