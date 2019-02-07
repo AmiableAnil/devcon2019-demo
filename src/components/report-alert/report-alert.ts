@@ -1,13 +1,13 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
-import * as d3 from 'd3';
-import { statsHeatMap } from '../../data/data'
+import { NavController, NavParams } from 'ionic-angular';
+import d3 from 'd3';
+import { statsHeatMap } from '../../data/data';
 
 @Component({
-  selector: 'page-report',
-  templateUrl: 'report.html',
+  selector: 'report-alert',
+  templateUrl: 'report-alert.html'
 })
-export class ReportPage {
+export class ReportAlertComponent {
   itemSize: number;
   cellSize: number;
   margin: any;
@@ -20,39 +20,40 @@ export class ReportPage {
   g: any;
   xAxis: any;
   yAxis: any;
-  backButtonFunc = undefined;
+  data2: any;
+  title: any;
+  pageName: any;
+  country: any;
+  data: { country: string, product: string, value: number }[];
 
   @ViewChild('reportcanvas')
   private reportCanvas: ElementRef
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    private platform: Platform,
-    private viewCtrl: ViewController ) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams) { 
+    this.title = this.navParams.get("title");
+    this.pageName = this.navParams.get("pageName");
+    this.data = this.navParams.get("heatMapData").map( (item) => ({
+      country: item.studentId,
+      product: item.topics,
+      value: item.rate
+    }));
+  }
 
   ionViewDidLoad() {
-    this.draw()
+    this.draw();
   }
   draw() {
-    var itemSize = 35,
+    var itemSize = 45,
       cellSize = itemSize - 1,
-      margin = { top: 70, right: 5, bottom: 5, left: 50 };
+      margin = { top: 70, right: 5, bottom: 5, left: 100 };
 
     var width = 370 - margin.right - margin.left,
-      height = 500 - margin.top - margin.bottom;
+      height = 370 - margin.top - margin.bottom;
 
-    var formatDate = d3.time.format("%Y-%m-%d");
+    //  var formatDate = d3.time.format("%Y-%m-%d");
 
-    var data = statsHeatMap.map(function (item) {
-      var newItem = {} as any;
-      newItem.country = item.x;
-      newItem.product = item.y;
-      newItem.value = item.value;
-
-      return newItem;
-    })
-
-    var x_elements = d3.set(data.map(function (item) { return item.product; })).values(),
-      y_elements = d3.set(data.map(function (item) { return item.country; })).values();
+    var x_elements = d3.set(this.data.map( (item) => { return item.product; })).values(),
+      y_elements = d3.set(this.data.map( (item) => { return item.country; })).values();
 
     var xScale = d3.scale.ordinal()
       .domain(x_elements)
@@ -60,7 +61,7 @@ export class ReportPage {
 
     var xAxis = d3.svg.axis()
       .scale(xScale)
-      .tickFormat(function (d) {
+      .tickFormat( (d) => {
         return d;
       })
       .orient("top");
@@ -88,24 +89,22 @@ export class ReportPage {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var cells = svg.selectAll('rect')
-      .data(data)
+      .data(this.data)
       .enter().append('g').append('rect')
       .attr('class', 'cell')
       .attr('width', cellSize)
       .attr('height', cellSize)
-      .attr('y', function (d) { return yScale(d.country); })
+      .attr('y', function (d) { return yScale(d.country) ; })
       .attr('x', function (d) { return xScale(d.product); })
       .attr('fill', function (d) { 
         // return d.value ? colorScale(d.value) : '#ededed' as any; 
         if(d.value && d.value <= 50) {
-          return 'rgb(165,42,42)';
+          return '#87CEEB';
         } else if(d.value && d.value > 50 && d.value <=74 ){
-        return 'rgb(184,134,11)';
+        return '#4F94CD	';
         } else if(d.value && d.value > 74 && d.value <=100 ){
-          return 'rgb(0,128,0)';
+          return '#1874CD';
         }
-
-      
       });
 
     svg.append("g")
@@ -126,4 +125,5 @@ export class ReportPage {
         return "rotate(-65)";
       });
   }
+
 }

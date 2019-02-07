@@ -1,3 +1,4 @@
+import { ReportAlertComponent } from './../components/report-alert/report-alert';
 import { SubjectListPage } from './../pages/subject-list/subject-list';
 import { PerioddetailsPage } from './../pages/perioddetails/perioddetails';
 import { ReportPage } from './../pages/report/report';
@@ -15,7 +16,8 @@ import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http'
     HomePage ,
     ReportPage,
  PerioddetailsPage,
- SubjectListPage
+ SubjectListPage,
+ ReportAlertComponent
 
   ],
   imports: [
@@ -27,7 +29,7 @@ import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http'
     IonicApp
   ],
   entryComponents: [
-    MyApp, HomePage , ReportPage , PerioddetailsPage , SubjectListPage
+    MyApp, HomePage , ReportPage , PerioddetailsPage , SubjectListPage, ReportAlertComponent
   ],
   providers: [
     StatusBar,

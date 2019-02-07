@@ -1,10 +1,12 @@
+import { ReportAlertComponent } from './../../components/report-alert/report-alert';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, PopoverController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, PopoverController, Events, Platform, ViewController, IonicApp } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-// import { AttendancePage } from '../attendance/attendance';
-// import { ReportAlertComponent } from '../../components/report-alert/report-alert';
-// import { AskappuPage } from '../askappu/askappu';
+//import { AttendancePage } from '../attendance/attendance';
+//import { ReportAlertComponent } from '../../components/report-alert/report-alert';
+//import { AskappuPage } from '../askappu/askappu';
 // import { AttendenceComponent } from '../../components/attendence/attendence';
+import { statsHeatMap } from '../../data/data';
 
 /**
  * Generated class for the PerioddetailsPage page.
@@ -27,33 +29,44 @@ export class PerioddetailsPage {
   avgAttendence: any;
   date: Date;
   studentSize = 5;
-  studentStatistics: boolean = false;
+  studentStatistics: boolean = true;
   teacherId;
   visitorId;
   visitorName;
   topicInfo;
   showStartClass = false;
+  backButtonFunc = undefined;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpClient: HttpClient, private modalCtrl: ModalController, private popoverCtrl: PopoverController,
-    public events: Events) {
-    this.data = this.navParams.get('data');
+    public events: Events,
+    private platform: Platform,
+    private viewCtrl: ViewController,
+    private ionicApp: IonicApp) {
+    // this.data = this.navParams.get('data');
 
-    const date = this.navParams.get('date');
-    this.teacherId = this.navParams.get('teacherid');
-    this.visitorId = this.navParams.get('visitorId');
-    this.visitorName = this.navParams.get('visitorName');
+    // const date = this.navParams.get('date');
+    // this.teacherId = this.navParams.get('teacherid');
+    // this.visitorId = this.navParams.get('visitorId');
+    // this.visitorName = this.navParams.get('visitorName');
     // this.data = this.data.event.data;
+    this.data = { 'period': 'PTCH1_1', 'class': 'Class 3' };
+
+    const date = '2019-02-06-';
+    this.teacherId = 'TCH1';
+    this.visitorId = 'VIS1';
+    this.visitorName = 'VIS1';
     console.log(this.data);
     this.showStartClass = false;
     this.events.subscribe('periodId', (res) => {
       if (res) {
-          this.getTopicsArray(res);
+        this.getTopicsArray(res);
         this.showStartClass = true;
         console.log(this.showStartClass);
         console.log(res);
       }
     });
-     // this.getPeriodDetails(this.data.period, this.data.class, date, this.teacherId);
+    // this.getPeriodDetails(this.data.period, this.data.class, date, this.teacherId);
+    this.handleBackButton();
   }
 
   getTopicsArray(periodId) {
@@ -98,6 +111,7 @@ export class PerioddetailsPage {
         "id": teacherId
       }
     };
+    console.log('req body', request);
     this.httpClient.post("https://dev.ekstep.in/api/dialcode/v3/period/read",
       request)
       .subscribe(data => {
@@ -121,7 +135,11 @@ export class PerioddetailsPage {
         // this.date = new Date(this.startDate);
 
       }, error => {
-        console.log(error);
+        console.log('error is', error);
+        this.topic = this.topics.join(' , ');
+        this.avgAttendence = 100;//this.periodResponse.attendance;
+        this.avgEngagement = 85;//this.getAverage(this.periodResponse.engagementDetails);
+        this.avgPerformance = 70;//this.getAverage(this.periodResponse.performanceDetails);
       });
   }
 
@@ -135,6 +153,7 @@ export class PerioddetailsPage {
       return avg;
     }
   }
+  // this.http.g
 
   // openHeatMap() {
   //   const popover = this.popoverCtrl.create(ReportAlertComponent, {
@@ -144,17 +163,17 @@ export class PerioddetailsPage {
   //   popover.present();
   // }
 
-  // openHeatMapForEngagement() {
-  //   const popover = this.popoverCtrl.create(ReportAlertComponent, {
-  //     heatMapData: this.periodResponse.engagementDetails,
-  //     title: "Engagement Report",
-  //     pageName: "Engagement"
-  //   }, {
-  //       cssClass: 'popover-alert'
-  //     });
-  //   popover.present();
+  openHeatMapForEngagement() {
+    const popover = this.popoverCtrl.create(ReportAlertComponent, {
+      heatMapData: statsHeatMap,// this.periodResponse.engagementDetails,
+      title: "Engagement Report",
+      pageName: "Engagement"
+    }, {
+        cssClass: 'popover-alert'
+      });
+    popover.present();
 
-  // }
+  }
 
   // showAppuPage() {
   //   this.navCtrl.push(AskappuPage, {
@@ -165,32 +184,51 @@ export class PerioddetailsPage {
   //   });
   // }
 
-  // openHeatMapForPerformance() {
-  //   const popover = this.popoverCtrl.create(ReportAlertComponent, {
-  //     heatMapData: this.periodResponse.performanceDetails,
-  //     title: "Performance Report",
-  //     pageName: "Performance"
+  openHeatMapForPerformance() {
+    const popover = this.popoverCtrl.create(ReportAlertComponent, {
+      heatMapData: statsHeatMap,//this.periodResponse.performanceDetails,
+      title: "Performance Report",
+      pageName: "Performance"
+    }, {
+        cssClass: 'popover-alert'
+      });
+    popover.present();
+  }
+
+  // openAttendenceReport() {
+  //   console.log(this.visitorId)
+  //   const popover = this.popoverCtrl.create(AttendenceComponent, {
+  //     attendenceDeatils: statsHeatMap,//this.periodResponse.attendanceDetails,
+  //     visitorId: this.visitorId,
+  //     period: this.data.period,
+  //     grade: this.data.class,
+  //     subject: this.data.subject,
+  //     teacher: this.teacherId
+
   //   }, {
   //       cssClass: 'popover-alert'
   //     });
   //   popover.present();
   // }
 
-//   openAttendenceReport() {
-//     console.log(this.visitorId)
-//     const popover = this.popoverCtrl.create(AttendenceComponent, {
-//       attendenceDeatils: this.periodResponse.attendanceDetails,
-//       visitorId:this.visitorId,
-//       period:this.data.period,
-//       grade:this.data.class,
-//       subject:this.data.subject,
-//       teacher:this.teacherId
+  formatDate() {
 
-//     }, {
-//         cssClass: 'popover-alert'
-//       });
-//     popover.present();
-//   }
-// }
+  }
 
+  handleBackButton() {
+    this.backButtonFunc = this.platform.registerBackButtonAction(() => {
+      const activePortal = this.ionicApp._modalPortal.getActive() ||
+        this.ionicApp._toastPortal.getActive() ||
+        this.ionicApp._overlayPortal.getActive();
+      if (activePortal) {
+        activePortal.dismiss();
+      } else if (this.navCtrl.canGoBack()) {
+        this.navCtrl.pop();
+      }
+      this.backButtonFunc();
+    }, 10);
+
+  }
 }
+
+
